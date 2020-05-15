@@ -17,10 +17,7 @@ public class FirstTestService {
     private final TestRepo testRepo;
 
     public List<TestEntity> findAll() {
-        var it = testRepo.findAll();
-        var users = new ArrayList<TestEntity>();
-        it.forEach(e -> users.add(e));
-        return users;
+        return testRepo.findAll();
     }
 
     public Long count() {
