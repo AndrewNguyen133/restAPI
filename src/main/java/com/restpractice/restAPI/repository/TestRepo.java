@@ -9,6 +9,9 @@ import java.util.List;
 @Repository
 public interface TestRepo extends CrudRepository<TestEntity, Long> {
     // declare query methods
+
+    // override and return a List so can get a List
     @Override
     List<TestEntity> findAll();
+
 }

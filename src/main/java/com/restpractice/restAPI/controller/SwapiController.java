@@ -14,5 +14,8 @@ public class SwapiController {
     // the helper will use a service that has the query methods
     private final SwapiClient swapiClient;
 
-
+    @GetMapping
+    public void getSwapi() {
+        swapiClient.getSwapi();
+    }
 }
