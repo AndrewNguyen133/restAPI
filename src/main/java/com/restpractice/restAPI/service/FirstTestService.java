@@ -3,7 +3,6 @@ package com.restpractice.restAPI.service;
 import com.restpractice.restAPI.entities.TestEntity;
 import com.restpractice.restAPI.repository.TestRepo;
 import lombok.RequiredArgsConstructor;
-import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 import java.util.ArrayList;
@@ -13,8 +12,11 @@ import java.util.List;
 @RequiredArgsConstructor
 public class FirstTestService {
 
-    @Autowired
     private final TestRepo testRepo;
+
+    public String healthCheck() {
+        return "here";
+    }
 
     public List<TestEntity> findAll() {
         return testRepo.findAll();

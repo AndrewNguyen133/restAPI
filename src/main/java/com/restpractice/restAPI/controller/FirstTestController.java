@@ -18,9 +18,21 @@ public class FirstTestController {
 
     private final FirstTestService firstTestService;
 
+    @GetMapping("/healthCheck")
+    @ResponseBody
+    public String healthCheck() {
+        return firstTestService.healthCheck();
+    }
+
     @GetMapping("/users")
     public List<TestEntity> allUsers() {
-        return firstTestService.findAll();
+        try {
+            return firstTestService.findAll();
+        }
+        catch (Exception e) {
+            System.out.println(e);
+            return null;
+        }
     }
 
     @GetMapping("/users/count")
