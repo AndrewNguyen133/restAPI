@@ -18,6 +18,10 @@ public class FirstTestService {
         return "here";
     }
 
+    public void createEntity(TestEntity entity) {
+        testRepo.save(entity);
+    }
+
     public List<TestEntity> findAll() {
         return testRepo.findAll();
     }
@@ -26,8 +30,9 @@ public class FirstTestService {
         return testRepo.count();
     }
 
-    public void deleteById(Long userId) {
+    public void deleteEntityById(Long userId) {
         testRepo.deleteById(userId);
     }
+
 }
 

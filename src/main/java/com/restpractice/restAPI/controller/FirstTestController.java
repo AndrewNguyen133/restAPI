@@ -1,22 +1,25 @@
 package com.restpractice.restAPI.controller;
 
+import com.fasterxml.jackson.core.JsonProcessingException;
+import com.fasterxml.jackson.databind.ObjectMapper;
+import com.mysql.cj.log.Slf4JLogger;
 import com.restpractice.restAPI.entities.TestEntity;
-import com.restpractice.restAPI.exceptions.GeneralException;
 import com.restpractice.restAPI.service.FirstTestService;
 import lombok.RequiredArgsConstructor;
-import org.springframework.beans.factory.annotation.Autowired;
+import lombok.extern.slf4j.Slf4j;
 import org.springframework.http.MediaType;
-import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
 
+@Slf4j
 @RestController
 @RequestMapping("first")
 @RequiredArgsConstructor
 public class FirstTestController {
 
     private final FirstTestService firstTestService;
+    private final Slf4JLogger logger;
 
     @GetMapping("/healthCheck")
     @ResponseBody
@@ -24,8 +27,21 @@ public class FirstTestController {
         return firstTestService.healthCheck();
     }
 
-    @GetMapping("/users")
-    public List<TestEntity> allUsers() {
+    @PostMapping("/create")
+    @ResponseBody
+    public void createEntity(@RequestBody String testEntity) {
+        try {
+            ObjectMapper mapper = new ObjectMapper();
+            TestEntity entity = mapper.readValue(testEntity, TestEntity.class);
+            firstTestService.createEntity(entity);
+        }
+        catch(JsonProcessingException e) {
+            logger.logWarn(e);
+        }
+    }
+
+    @GetMapping("/read")
+    public List<TestEntity> getAllEntities() {
         try {
             return firstTestService.findAll();
         }
@@ -35,18 +51,18 @@ public class FirstTestController {
         }
     }
 
+    @DeleteMapping("/users/{id}")
+    public void delete(@PathVariable String id) {
+        Long userId = Long.parseLong(id);
+        firstTestService.deleteEntityById(userId);
+    }
+
     @GetMapping("/users/count")
     public Long count() {
         return firstTestService.count();
     }
 
-    @DeleteMapping("/users/{id}")
-    public void delete(@PathVariable String id) {
-        Long userId = Long.parseLong(id);
-        firstTestService.deleteById(userId);
-    }
-
-    // test endpoints
+    //////////////////// test endpoints //////////////////////////////
     @GetMapping(consumes = MediaType.APPLICATION_JSON_VALUE,
             produces = MediaType.APPLICATION_JSON_VALUE)
     @ResponseBody

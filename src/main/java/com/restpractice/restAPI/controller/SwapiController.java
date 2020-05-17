@@ -2,8 +2,10 @@ package com.restpractice.restAPI.controller;
 
 import com.restpractice.restAPI.clients.SwapiClient;
 import lombok.AllArgsConstructor;
+import lombok.NonNull;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
 
 @RestController
@@ -15,7 +17,8 @@ public class SwapiController {
     private final SwapiClient swapiClient;
 
     @GetMapping
-    public void getSwapi() {
-        swapiClient.getSwapi();
+    public void getSwapi(@RequestParam("topic") @NonNull String topic,
+                         @RequestParam("num") @NonNull Integer num) {
+        swapiClient.getSnapiSync(topic, num);
     }
 }
